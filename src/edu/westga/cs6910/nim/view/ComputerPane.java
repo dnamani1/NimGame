@@ -27,6 +27,7 @@ public class ComputerPane extends GridPane implements InvalidationListener {
 
 	/**
 	 * Creates a new ComputerPane that observes the specified game.
+	 * And  Add this object as an listener of the Game.
 	 * 
 	 * @param theGame the model object from which this pane gets its data
 	 * 
@@ -35,16 +36,24 @@ public class ComputerPane extends GridPane implements InvalidationListener {
 	public ComputerPane(Game theGame) {
 		this.theGame = theGame;
 
-		// TODO: Add this object as an listener of the Game.
+		this.theGame.addListener(this);
 
 		this.theComputer = this.theGame.getComputerPlayer();
 
 		this.buildPane();
 	}
 
+	/**
+	 *  Using the other pane classes as a model, build this pane.
+	 */
 	private void buildPane() {
-		// TODO: Using the other pane classes as a model, build this pane.
-
+		this.add(new Label("~~" + this.theComputer.getName() + "~~"), 0, 0);
+        
+		this.add(new Label("Number of stricks to take: "), 0, 1);
+		
+		this.btnTakeTurn = new Button("Take Turn");
+		this.btnTakeTurn.setOnAction(new TakeTurnListener());
+		this.add(this.btnTakeTurn, 0, 2);
 	}
 
 	@Override

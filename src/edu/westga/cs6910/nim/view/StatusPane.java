@@ -32,6 +32,9 @@ public class StatusPane extends GridPane implements InvalidationListener {
 		this.buildPane();
 	}
 
+	/**
+	 * 
+	 */
 	private void buildPane() {
 		this.add(new Label("~~ Game Info ~~"), 0, 0);
 		
@@ -39,6 +42,11 @@ public class StatusPane extends GridPane implements InvalidationListener {
 		this.add(this.lblStatus, 0, 1);
 	}
 
+	/**
+	 * Called when the game has become invalid.
+	 * 
+	 * @param observable theGame that triggered the invalidation
+	 */
 	@Override
 	public void invalidated(Observable observable) {
 		this.lblStatus.setText(this.theGame.toString());

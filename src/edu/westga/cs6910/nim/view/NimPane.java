@@ -72,6 +72,12 @@ public class NimPane extends BorderPane {
 		this.setCenter(this.pnContent);
 	}
 
+	/*
+     * Adding Choose First Player pane on top  of the content pane.
+     * 
+     * @param theGame the Game object
+     * 
+     */
 	private void addFirstPlayerChooserPane(Game theGame) {
 		HBox topBox = new HBox();
 		topBox.getStyleClass().add("pane-border");

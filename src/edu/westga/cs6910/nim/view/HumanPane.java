@@ -12,8 +12,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 
 /**
- * Defines the panel that lets the user indicate the number of sticks
- * to take from the pile and to take the turn.
+ * Defines the panel that lets the user indicate the number of sticks to take
+ * from the pile and to take the turn.
  * 
  * @author Deeksha Namani
  * @version 6/6/2023
@@ -21,31 +21,34 @@ import javafx.scene.layout.GridPane;
 public class HumanPane extends GridPane implements InvalidationListener {
 	private ComboBox<Integer> cmbNumberToTake;
 	private Button btnTakeSticks;
-	
+
 	private HumanPlayer theHuman;
 	private Game theGame;
 
 	/**
-	 * Creates a new HumanPane that observes the specified game. 
+	 * Creates a new HumanPane that observes the specified game.
 	 * 
-	 * @param theGame	the model object from which this pane gets its data
+	 * @param theGame the model object from which this pane gets its data
 	 * 
-	 * @requires 	theGame != null
+	 * @requires theGame != null
 	 */
 	public HumanPane(Game theGame) {
 		this.theGame = theGame;
 		this.theGame.addListener(this);
-		
+
 		this.theHuman = this.theGame.getHumanPlayer();
-		
+
 		this.buildPane();
 	}
-	
+
+	/**
+	 * Building the Pane for the Human Player
+	 */
 	private void buildPane() {
 		this.add(new Label("~~ " + this.theHuman.getName() + " ~~"), 0, 0);
-		
+
 		this.add(new Label("Number of sticks to take: "), 0, 1);
-		
+
 		this.cmbNumberToTake = new ComboBox<Integer>();
 		this.cmbNumberToTake.getItems().addAll(1, 2, 3);
 		this.add(this.cmbNumberToTake, 1, 1);
@@ -55,15 +58,21 @@ public class HumanPane extends GridPane implements InvalidationListener {
 		this.add(this.btnTakeSticks, 3, 1);
 	}
 
+	/**
+	 * Called when the game has become invalid. based on the game's current status,
+	 * updates the user interface.
+	 * 
+	 * @param observable theGame that triggered the invalidation
+	 */
 	@Override
 	public void invalidated(Observable observable) {
 		if (this.theGame.isGameOver()) {
 			this.setDisable(true);
 			return;
 		}
-		
+
 		boolean myTurn = this.theGame.getCurrentPlayer() == this.theHuman;
-		
+
 		if (myTurn) {
 			this.resetNumberToTakeComboBox();
 		}
@@ -72,31 +81,32 @@ public class HumanPane extends GridPane implements InvalidationListener {
 	}
 
 	/**
-	 *  Clears the numbers in the combo box, then adds back in all the
-	 *  valid numbers so the user can't try to take more sticks than allowed.
+	 * Clears the numbers in the combo box, then adds back in all the valid numbers
+	 * so the user can't try to take more sticks than allowed.
 	 */
-	private void resetNumberToTakeComboBox() {	
+	private void resetNumberToTakeComboBox() {
 		this.cmbNumberToTake.getItems().clear();
-		
+
 		int max = Math.min(this.theGame.getSticksLeft() - 1, Game.MAX_STICKS_PER_TURN);
 		for (int number = 0; number < max; number++) {
 			this.cmbNumberToTake.getItems().add(number + 1);
-		}	
+		}
 		this.cmbNumberToTake.setValue(1);
 	}
 
 	private class TakeTurnListener implements EventHandler<ActionEvent> {
-		/* 
-		 * Tells the Game to have its current player (i.e., the human Player)
-		 * take its turn.	
+		/*
+		 * Tells the Game to have its current player (i.e., the human Player) take its
+		 * turn.
 		 * 
-		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+		 * @see
+		 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 		 */
 		@Override
 		public void handle(ActionEvent event) {
 			if (!HumanPane.this.theGame.isGameOver()) {
 				HumanPane.this.theHuman.setPileForThisTurn(HumanPane.this.theGame.getPile());
-				HumanPane.this.theHuman.setNumberSticksToTake();
+				HumanPane.this.theHuman.setNumberSticksToTake((int) HumanPane.this.cmbNumberToTake.getValue());
 				HumanPane.this.theGame.play();
 			}
 		}

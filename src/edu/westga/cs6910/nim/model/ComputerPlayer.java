@@ -25,7 +25,9 @@ public class ComputerPlayer extends AbstractPlayer {
 	 * @see Player#takeTurn()
 	 */
 	public void takeTurn() {
-		this.thePile.removeSticks(this.sticksToTake);
+		if (this.thePile != null) {
+            this.thePile.removeSticks(this.sticksToTake);
+        }
 	}
 
 	@Override
@@ -37,7 +39,14 @@ public class ComputerPlayer extends AbstractPlayer {
 	 * @see Player#setNumberSticksToTake()
 	 */
 	public void setNumberSticksToTake() {
-		this.sticksToTake = 1;
+		if (this.thePile != null) {
+            this.sticksToTake = 1;
+        }
 	}
+	
+	@Override
+    public void setPileForThisTurn(Pile aPile) {
+        this.thePile = aPile;
+    }
 
 }

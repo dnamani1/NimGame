@@ -28,9 +28,7 @@ public abstract class AbstractPlayer implements Player {
 	}
 
 	@Override
-	public void setPileForThisTurn(Pile aPile) {
-		this.thePile = aPile;
-	}
+	public abstract void setPileForThisTurn(Pile aPile);
 
 	@Override
 	public abstract void takeTurn();

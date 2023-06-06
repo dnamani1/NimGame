@@ -57,11 +57,17 @@ public class NimPane extends BorderPane {
 		hboxHumanPlayer.getChildren().add(this.pnHumanPlayer);
 		this.pnContent.setLeft(hboxHumanPlayer);
 
+		HBox hboxStatus = new HBox();
+		hboxStatus.getStyleClass().add("pane-border");
 		this.pnGameInfo = new StatusPane(theGame);
-	    this.pnContent.setCenter(this.pnGameInfo);
+		hboxStatus.getChildren().add(this.pnGameInfo);
+	    this.pnContent.setCenter(hboxStatus);
 
+	    HBox hboxComputerPlayer = new HBox();
+	    hboxComputerPlayer.getStyleClass().add("pane-border");
 	    this.pnComputerPlayer = new ComputerPane(theGame);
-        this.pnContent.setBottom(this.pnComputerPlayer);
+	    hboxComputerPlayer.getChildren().add(this.pnComputerPlayer);
+        this.pnContent.setRight(hboxComputerPlayer);
 
 		this.setCenter(this.pnContent);
 	}
@@ -112,8 +118,6 @@ public class NimPane extends BorderPane {
 			this.radComputerPlayer = new RadioButton(this.theComputer.getName() + " first");
             this.radComputerPlayer.setOnAction(new ComputerFirstListener());
 
-            this.radHumanPlayer.setSelected(true);
-
             ToggleGroup toggleGroup = new ToggleGroup();
             this.radHumanPlayer.setToggleGroup(toggleGroup);
             this.radComputerPlayer.setToggleGroup(toggleGroup);
@@ -151,7 +155,7 @@ public class NimPane extends BorderPane {
 			 */
 			@Override
 			public void handle(ActionEvent event) {
-				NimPane.this.pnChooseFirstPlayer.setDisable(true);
+				NimPane.this.pnChooseFirstPlayer.setDisable(false);
 				NimPane.this.pnHumanPlayer.setDisable(false);
                 NimPane.this.pnChooseFirstPlayer.setDisable(true);
                 NimPane.this.theGame.startNewGame(NewGamePane.this.theHuman);

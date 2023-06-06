@@ -28,8 +28,9 @@ public class HumanPlayer extends AbstractPlayer {
 	 * @see Player#takeTurn(Pile)
 	 */
 	public void takeTurn() {
-
-		this.thePile.removeSticks(this.sticksToTake);
+		if (this.thePile != null) {
+            this.thePile.removeSticks(this.sticksToTake);
+        }
 	}
 	
 	@Override
@@ -44,8 +45,14 @@ public class HumanPlayer extends AbstractPlayer {
 	 * @see Player#setNumberSticksToTake()
 	 */
 	public void setNumberSticksToTake() {
-		this.sticksToTake = 
-				Math.min(this.thePile.getSticksLeft() - 1, Game.MAX_STICKS_PER_TURN);
+		if (this.thePile != null) {
+            this.sticksToTake = Math.min(this.thePile.getSticksLeft() - 1, Game.MAX_STICKS_PER_TURN);
+        }
 	}
+	
+	@Override
+    public void setPileForThisTurn(Pile aPile) {
+        this.thePile = aPile;
+    }
 
 }

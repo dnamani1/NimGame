@@ -15,8 +15,8 @@ import javafx.scene.layout.GridPane;
  * Defines the panel that lets the user indicate the number of sticks
  * to take from the pile and to take the turn.
  * 
- * @author CS6910
- * @version Summer 2023
+ * @author Deeksha Namani
+ * @version 6/6/2023
  */
 public class HumanPane extends GridPane implements InvalidationListener {
 	private ComboBox<Integer> cmbNumberToTake;
@@ -96,8 +96,7 @@ public class HumanPane extends GridPane implements InvalidationListener {
 		public void handle(ActionEvent event) {
 			if (!HumanPane.this.theGame.isGameOver()) {
 				HumanPane.this.theHuman.setPileForThisTurn(HumanPane.this.theGame.getPile());
-				HumanPane.this.theHuman.setNumberSticksToTake((int) HumanPane.this.cmbNumberToTake
-						.getValue());
+				HumanPane.this.theHuman.setNumberSticksToTake();
 				HumanPane.this.theGame.play();
 			}
 		}

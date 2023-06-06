@@ -6,9 +6,7 @@ package edu.westga.cs6910.nim.model;
  * @author CS6910
  * @version Summer 2023
  */
-public class HumanPlayer implements Player {
-
-	private String name;
+public class HumanPlayer extends AbstractPlayer {
 	private int sticksToTake;
 	private Pile thePile;
 
@@ -22,18 +20,7 @@ public class HumanPlayer implements Player {
 	 * @ensure name().equals(name) && sticksRemoved() == 0
 	 */
 	public HumanPlayer(String name) {
-		this.name = name;
-		this.sticksToTake = 0;
-	}
-
-	@Override	
-	/**
-	 * @see Player#setPileForThisTurn(Pile)
-	 */
-
-	public void setPileForThisTurn(Pile aPile) {
-		this.thePile = aPile;
-
+		super(name);
 	}
 
 	@Override
@@ -43,14 +30,6 @@ public class HumanPlayer implements Player {
 	public void takeTurn() {
 
 		this.thePile.removeSticks(this.sticksToTake);
-	}
-
-	@Override
-	/**
-	 * @see Player#setNumberSticksToTake()
-	 */
-	public void setNumberSticksToTake(int number) {
-		this.sticksToTake = number;
 	}
 	
 	@Override
@@ -69,29 +48,4 @@ public class HumanPlayer implements Player {
 				Math.min(this.thePile.getSticksLeft() - 1, Game.MAX_STICKS_PER_TURN);
 	}
 
-	@Override
-	/**
-	 * @see edu.westga.cs6910.nim.model.Player#getName()
-	 */
-	public String getName() {
-		return this.name;
-	}
-
-	@Override	
-	/**
-	 * @see edu.westga.cs6910.nim.model.Player#getSticksOnThisTurn()
-	 */
-
-	public int getSticksOnThisTurn() {
-		return this.sticksToTake;
-	}
-	
-	@Override
-	/**
-	 * @see edu.westga.cs6910.nim.model.Player#getPileForThisTurn()
-	 */
-
-	public Pile getPileForThisTurn() {
-		return this.thePile;
-	}
 }

@@ -26,8 +26,8 @@ public class ComputerPane extends GridPane implements InvalidationListener {
 	private Button btnTakeTurn;
 
 	/**
-	 * Creates a new ComputerPane that observes the specified game.
-	 * And  Add this object as an listener of the Game.
+	 * Creates a new ComputerPane that observes the specified game. And Add this
+	 * object as an listener of the Game.
 	 * 
 	 * @param theGame the model object from which this pane gets its data
 	 * 
@@ -44,18 +44,24 @@ public class ComputerPane extends GridPane implements InvalidationListener {
 	}
 
 	/**
-	 *  Using the other pane classes as a model, build this pane.
+	 * Using the other pane classes as a model, build this pane.
 	 */
 	private void buildPane() {
 		this.add(new Label("~~" + this.theComputer.getName() + "~~"), 0, 0);
-        
+
 		this.add(new Label("Number of stricks to take: "), 0, 1);
-		
+
 		this.btnTakeTurn = new Button("Take Turn");
 		this.btnTakeTurn.setOnAction(new TakeTurnListener());
 		this.add(this.btnTakeTurn, 0, 2);
 	}
 
+	/**
+	 * Set the user interface to show the number of sticks taken by the
+	 * computer player. 
+	 * Disable if it is no longer the computer's turn, enable
+	 * it if it is the computer's turn
+	 */
 	@Override
 	public void invalidated(Observable arg0) {
 		if (this.theGame.isGameOver()) {
@@ -66,13 +72,9 @@ public class ComputerPane extends GridPane implements InvalidationListener {
 		boolean myTurn = this.theGame.getCurrentPlayer() == this.theComputer;
 
 		if (!myTurn) {
-			// TODO: Set the user interface to show the number of
-			// sticks taken by the computer player.
-
+			this.lblNumberTaken.setText("Number of Sticks Taken: " + this.theComputer.getSticksOnThisTurn());
 		}
-		// TODO: Disable if it is no longer the computer's turn, enable it if
-		// it is the computer's turn
-
+		this.setDisable(!myTurn);
 	}
 
 	/*
@@ -88,9 +90,11 @@ public class ComputerPane extends GridPane implements InvalidationListener {
 		 */
 		@Override
 		public void handle(ActionEvent arg0) {
-			// TODO: if the game isn't finished:
-			// - Set the computer's pile and number of sticks.
-			// - Tell theGame to play a move.
+			if (!ComputerPane.this.theGame.isGameOver()) {
+				ComputerPane.this.theComputer.setPileForThisTurn(ComputerPane.this.theGame.getPile());
+				ComputerPane.this.theComputer.setNumberSticksToTake();
+				ComputerPane.this.theGame.play();
+			}
 
 		}
 	}

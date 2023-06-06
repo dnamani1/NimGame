@@ -68,14 +68,18 @@ public class Game implements Observable {
 	 * Conducts a move in the game, allowing the appropriate Player to take a turn.
 	 * Has no effect if the game is over.
 	 * 
+	 * 1. Tell the current player to take its turn. 2. Swap whose turn it is.
+	 * 
 	 * @requires !isGameOver()
 	 * 
-	 * @ensures !whoseTurn().equals(whoseTurn()@prev) && sticksLeft() <
-	 *          sticksLeft()@prev
+	 * @ensures (!whoseTurn().equals(whoseTurn()@prev) && sticksLeft()) &lt;
+	 *          (sticksLeft()@prev)
 	 */
 	public void play() {
-		// TODO: 1. Tell the current player to take its turn.
-		// 2. Swap whose turn it is.
+		if (!this.isGameOver()) {
+			this.getCurrentPlayer().takeTurn();
+			this.swapWhoseTurn();
+		}
 
 		this.isGameOver();
 	}
@@ -155,10 +159,15 @@ public class Game implements Observable {
 		return result;
 	}
 
+	/**
+	 * Swap the players so that the other player becomes the current player.
+	 */
 	private void swapWhoseTurn() {
-		// TODO: Swap the players so that the other player becomes
-		// the current player.
-
+		if (this.currentPlayerObject.getValue() == this.theHuman) {
+			this.currentPlayerObject.setValue(this.theComputer);
+		} else {
+			this.currentPlayerObject.setValue(this.theHuman);
+		}
 	}
 
 	@Override

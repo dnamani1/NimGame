@@ -155,9 +155,8 @@ public class NimPane extends BorderPane {
 			 */
 			@Override
 			public void handle(ActionEvent event) {
-				NimPane.this.pnChooseFirstPlayer.setDisable(false);
+				NimPane.this.pnChooseFirstPlayer.setDisable(true);
 				NimPane.this.pnHumanPlayer.setDisable(false);
-                NimPane.this.pnChooseFirstPlayer.setDisable(true);
                 NimPane.this.theGame.startNewGame(NewGamePane.this.theHuman);
 
 			}

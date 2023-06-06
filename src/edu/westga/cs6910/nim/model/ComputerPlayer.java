@@ -9,8 +9,6 @@ package edu.westga.cs6910.nim.model;
  */
 public class ComputerPlayer extends AbstractPlayer {
 	private static final String NAME = "Simple computer";
-	private int sticksToTake;
-	private Pile thePile;
 
 	/**
 	 * Creates a new ComputerPlayer with the specified name.
@@ -22,16 +20,6 @@ public class ComputerPlayer extends AbstractPlayer {
 
 	@Override
 	/**
-	 * @see Player#takeTurn()
-	 */
-	public void takeTurn() {
-		if (this.thePile != null) {
-            this.thePile.removeSticks(this.sticksToTake);
-        }
-	}
-
-	@Override
-	/**
 	 * Implements Player's setNumberSticksToTake() to set the number of sticks to 1.
 	 * 
 	 * @ensure sticksOnThisTurn() == 1
@@ -39,14 +27,7 @@ public class ComputerPlayer extends AbstractPlayer {
 	 * @see Player#setNumberSticksToTake()
 	 */
 	public void setNumberSticksToTake() {
-		if (this.thePile != null) {
-            this.sticksToTake = 1;
-        }
+		this.setNumberSticksToTake(1);
 	}
-	
-	@Override
-    public void setPileForThisTurn(Pile aPile) {
-        this.thePile = aPile;
-    }
 
 }

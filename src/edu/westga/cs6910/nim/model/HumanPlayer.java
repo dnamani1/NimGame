@@ -7,8 +7,6 @@ package edu.westga.cs6910.nim.model;
  * @version Summer 2023
  */
 public class HumanPlayer extends AbstractPlayer {
-	private int sticksToTake;
-	private Pile thePile;
 
 	/**
 	 * Creates a new ComputerPlayer with the specified name.
@@ -25,16 +23,6 @@ public class HumanPlayer extends AbstractPlayer {
 
 	@Override
 	/**
-	 * @see Player#takeTurn(Pile)
-	 */
-	public void takeTurn() {
-		if (this.thePile != null) {
-            this.thePile.removeSticks(this.sticksToTake);
-        }
-	}
-	
-	@Override
-	/**
 	 * Implements Player's setNumberSticksToTake() to set the number
 	 * of sticks to the maximum allowed for this turn.
 	 * 
@@ -45,14 +33,7 @@ public class HumanPlayer extends AbstractPlayer {
 	 * @see Player#setNumberSticksToTake()
 	 */
 	public void setNumberSticksToTake() {
-		if (this.thePile != null) {
-            this.sticksToTake = Math.min(this.thePile.getSticksLeft() - 1, Game.MAX_STICKS_PER_TURN);
-        }
+		super.setNumberSticksToTake(Math.min(super.getPileForThisTurn().getSticksLeft() - 1, Game.MAX_STICKS_PER_TURN));
 	}
-	
-	@Override
-    public void setPileForThisTurn(Pile aPile) {
-        this.thePile = aPile;
-    }
 
 }

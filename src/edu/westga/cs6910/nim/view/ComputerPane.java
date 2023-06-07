@@ -49,11 +49,12 @@ public class ComputerPane extends GridPane implements InvalidationListener {
 		this.add(new Label("~~" + this.theComputer.getName() + "~~"), 0, 0);
 		
 		this.lblNumberTaken = new Label();
-		this.add(this.lblNumberTaken, 0, 2);
+		this.add(this.lblNumberTaken, 0, 1);
 		
 		this.btnTakeTurn = new Button("Take Turn");
 		this.btnTakeTurn.setOnAction(new TakeTurnListener());
-		this.add(this.btnTakeTurn, 0, 1);
+		this.add(this.btnTakeTurn, 0, 2);
+		this.setDisable(true);
 	}
 
 	/**

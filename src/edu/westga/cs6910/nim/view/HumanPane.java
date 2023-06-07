@@ -56,6 +56,7 @@ public class HumanPane extends GridPane implements InvalidationListener {
 		this.btnTakeSticks = new Button("Take Sticks");
 		this.btnTakeSticks.setOnAction(new TakeTurnListener());
 		this.add(this.btnTakeSticks, 3, 1);
+		this.setDisable(true);
 	}
 
 	/**

@@ -130,6 +130,7 @@ public class NimPane extends BorderPane {
 
             this.add(this.radHumanPlayer, 0, 0);
             this.add(this.radComputerPlayer, 1, 0);
+           
 		}
 
 		/*
@@ -164,7 +165,6 @@ public class NimPane extends BorderPane {
 				NimPane.this.pnChooseFirstPlayer.setDisable(true);
 				NimPane.this.pnHumanPlayer.setDisable(false);
                 NimPane.this.theGame.startNewGame(NewGamePane.this.theHuman);
-
 			}
 		}
 	}

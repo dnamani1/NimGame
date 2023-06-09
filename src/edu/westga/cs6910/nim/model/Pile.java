@@ -2,8 +2,8 @@ package edu.westga.cs6910.nim.model;
 
 /**
  * A pile of sticks for playing Nim.
- * @author CS6910
- * @version Summer 2023
+ * @author Deeksha Namani
+ * @version 6/9/2023
  */
 public class Pile {
 

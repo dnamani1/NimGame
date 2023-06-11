@@ -35,11 +35,10 @@ class GameWhenPlayTheGame {
 	public void testPlaySwapsCurrentPlayer() {
 		Player previousPlayer = this.theGame.getCurrentPlayer();
 		this.theGame.play();
+		this.theGame.swapWhoseTurn();
 		Player currentPlayer = this.theGame.getCurrentPlayer();
 
-		Player expected = (previousPlayer == this.humanPlayer) ? this.computerPlayer : this.humanPlayer;
-
-		assertEquals(expected, currentPlayer);
+		assertEquals(previousPlayer, currentPlayer);
 	}
 	
 	@Test

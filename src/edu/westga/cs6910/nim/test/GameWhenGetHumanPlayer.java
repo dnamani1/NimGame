@@ -17,7 +17,7 @@ import edu.westga.cs6910.nim.model.Player;
  * @version 6/11/2023
  *
  */
-public class GameWhenGetHuman {
+public class GameWhenGetHumanPlayer {
 	private Game theGame;
 	private Player humanPlayer;
 	private Player computerPlayer;

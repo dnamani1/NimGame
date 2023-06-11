@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import edu.westga.cs6910.nim.model.ComputerPlayer;
 import edu.westga.cs6910.nim.model.Game;
 import edu.westga.cs6910.nim.model.HumanPlayer;
+import edu.westga.cs6910.nim.model.Pile;
 import edu.westga.cs6910.nim.model.Player;
 
 /**
@@ -49,5 +50,21 @@ class GameWhenPlayTheGame {
 	    assertEquals(true, this.theGame.isGameOver());
 	}
 
+	@Test
+	public void testPlayReducesSticksLeft() {
+		int initialSticks = this.theGame.getSticksLeft();
+		Pile pile = this.theGame.getPile();
+		Player currentPlayer = this.theGame.getCurrentPlayer();
+		
+		currentPlayer.setPileForThisTurn(pile);
+		currentPlayer.setNumberSticksToTake(1);
+		
+		this.theGame.play();
+		
+		int expected = initialSticks - 1;
+		int actual = this.theGame.getSticksLeft();
+		
+		assertEquals(expected, actual);
+	}
 
 }

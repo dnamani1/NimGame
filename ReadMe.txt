@@ -1,0 +1,1 @@
+1.Made changes to the swapWhoseTurn()by making it public so that the method can be use to test player swaping when game start.

@@ -26,31 +26,61 @@ public class GameWhenGetCurrentPlayer {
 		this.humanPlayer = new HumanPlayer("Deeksha");
 		this.computerPlayer = new ComputerPlayer();
 		this.theGame = new Game((HumanPlayer) this.humanPlayer, (ComputerPlayer) this.computerPlayer);
-		this.theGame.startNewGame(this.humanPlayer);
+		
 	}
 
 	@Test
 	public void testGetCurrentPlayerReturnsHumanPlayerWhenGameStarts() {
+		this.theGame.startNewGame(this.humanPlayer);
 		Player expected = this.humanPlayer;
 		Player actual = this.theGame.getCurrentPlayer();
 
-		assertEquals(expected, actual, "getCurrentPlayer should return the human player when the game starts");
+		assertEquals(expected, actual);
 	}
 	
 	@Test
-    public void testGetCurrentPlayerReturnsHumanPlayerWithNameDeeksha() {
+    public void testGetCurrentPlayerReturnsHumanPlayerWithName() {
+		this.theGame.startNewGame(this.humanPlayer);
         Player actual = this.theGame.getCurrentPlayer();
 
-        assertEquals("Deeksha", actual.getName(), "getCurrentPlayer should return the human player with the correct name");
+        assertEquals("Deeksha", actual.getName());
     }
 	
 	@Test
 	public void testGetCurrentPlayerReturnsComputerPlayerAfterSwapWhoseTurn() {
+		this.theGame.startNewGame(this.humanPlayer);
 	    this.theGame.swapWhoseTurn();
 	    Player expected = this.computerPlayer;
 	    Player actual = this.theGame.getCurrentPlayer();
 
-	    assertEquals(expected, actual, "getCurrentPlayer should return the computer player after calling swapWhoseTurn");
+	    assertEquals(expected, actual);
 	}
 
+	@Test
+    public void testGetCurrentPlayerReturnsComputerPlayerWhenStartNewGame() {
+        this.theGame.startNewGame(this.computerPlayer);
+        Player expected = this.computerPlayer;
+        Player actual = this.theGame.getCurrentPlayer();
+
+        assertEquals(expected, actual);
+    }
+	
+	@Test
+    public void testGetCurrentPlayerReturnsComputerPlayerWithName() {
+		this.theGame.startNewGame(this.computerPlayer);
+        Player actual = this.theGame.getCurrentPlayer();
+
+        assertEquals("Simple computer", actual.getName());
+    }
+	
+	@Test
+	public void testGetCurrentPlayerReturnsHumanPlayerAfterSwapWhoseTurn() {
+		this.theGame.startNewGame(this.computerPlayer);
+	    this.theGame.swapWhoseTurn();
+	    Player expected = this.humanPlayer;
+	    Player actual = this.theGame.getCurrentPlayer();
+
+	    assertEquals(expected, actual);
+	}
+	
 }

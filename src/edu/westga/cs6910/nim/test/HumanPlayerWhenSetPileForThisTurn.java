@@ -25,7 +25,25 @@ public class HumanPlayerWhenSetPileForThisTurn {
 	
 	@Test
 	public void testShouldSetPileForThisTurn() {
-		Pile thePile = new Pile(10);
+		Pile thePile = new Pile(7);
+
+		this.testHumanPlayer.setPileForThisTurn(thePile);
+
+		assertEquals(thePile, this.testHumanPlayer.getPileForThisTurn());
+	}
+	
+	@Test
+	public void testSetPileForThisTurnShouldSetPileWithSticksLeftGreaterThan1() {
+		Pile thePile = new Pile(3);
+
+		this.testHumanPlayer.setPileForThisTurn(thePile);
+
+		assertEquals(thePile, this.testHumanPlayer.getPileForThisTurn());
+	}
+
+	@Test
+	public void testSetPileForThisTurnShouldNotSetPileWithSticksLeftEquals1() {
+		Pile thePile = new Pile(1);
 
 		this.testHumanPlayer.setPileForThisTurn(thePile);
 

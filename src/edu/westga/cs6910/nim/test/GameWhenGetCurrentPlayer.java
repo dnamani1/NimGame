@@ -46,15 +46,6 @@ public class GameWhenGetCurrentPlayer {
         assertEquals("Deeksha", actual.getName());
     }
 	
-	@Test
-	public void testGetCurrentPlayerReturnsComputerPlayerAfterSwapWhoseTurn() {
-		this.theGame.startNewGame(this.humanPlayer);
-	    this.theGame.swapWhoseTurn();
-	    Player expected = this.computerPlayer;
-	    Player actual = this.theGame.getCurrentPlayer();
-
-	    assertEquals(expected, actual);
-	}
 
 	@Test
     public void testGetCurrentPlayerReturnsComputerPlayerWhenStartNewGame() {
@@ -72,15 +63,5 @@ public class GameWhenGetCurrentPlayer {
 
         assertEquals("Simple computer", actual.getName());
     }
-	
-	@Test
-	public void testGetCurrentPlayerReturnsHumanPlayerAfterSwapWhoseTurn() {
-		this.theGame.startNewGame(this.computerPlayer);
-	    this.theGame.swapWhoseTurn();
-	    Player expected = this.humanPlayer;
-	    Player actual = this.theGame.getCurrentPlayer();
 
-	    assertEquals(expected, actual);
-	}
-	
 }

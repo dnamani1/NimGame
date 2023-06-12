@@ -162,7 +162,7 @@ public class Game implements Observable {
 	/**
 	 * Swap the players so that the other player becomes the current player.
 	 */
-	public void swapWhoseTurn() {
+	private void swapWhoseTurn() {
 		if (this.currentPlayerObject.getValue() == this.theHuman) {
 			this.currentPlayerObject.setValue(this.theComputer);
 		} else {

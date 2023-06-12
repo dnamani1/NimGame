@@ -30,22 +30,20 @@ class GameWhenPlayTheGame {
 		this.theGame = new Game((HumanPlayer) this.humanPlayer, (ComputerPlayer) this.computerPlayer);
 		this.theGame.startNewGame(this.humanPlayer);
 	}
-
-	@Test
-	public void testPlaySwapsCurrentPlayer() {
-		Player previousPlayer = this.theGame.getCurrentPlayer();
-		this.theGame.play();
-		this.theGame.swapWhoseTurn();
-		Player currentPlayer = this.theGame.getCurrentPlayer();
-
-		assertEquals(previousPlayer, currentPlayer);
-	}
 	
 	@Test
 	public void testPlayUpdatesGameOverStateWhenSticksLeftIs1() {
 	    this.theGame.getPile().removeSticks(6);
 	    this.theGame.play();
 	    
+	    assertEquals(true, this.theGame.isGameOver());
+	}
+	
+	@Test
+	public void testPlayUpdatesGameOverStateWhenSticksLeftIs0() {
+	    this.theGame.getPile().removeSticks(7);
+	    this.theGame.play();
+
 	    assertEquals(true, this.theGame.isGameOver());
 	}
 
@@ -64,6 +62,16 @@ class GameWhenPlayTheGame {
 		int actual = this.theGame.getSticksLeft();
 		
 		assertEquals(expected, actual);
+	}
+	
+	@Test
+	public void testPlayDoesNotChangeCurrentPlayerWhenGameIsOver() {
+	    this.theGame.getPile().removeSticks(7);
+	    Player previousPlayer = this.theGame.getCurrentPlayer();
+	    this.theGame.play();
+	    Player currentPlayer = this.theGame.getCurrentPlayer();
+
+	    assertEquals(previousPlayer, currentPlayer);
 	}
 
 }

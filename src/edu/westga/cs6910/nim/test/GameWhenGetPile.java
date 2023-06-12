@@ -9,7 +9,6 @@ import edu.westga.cs6910.nim.model.ComputerPlayer;
 import edu.westga.cs6910.nim.model.Game;
 import edu.westga.cs6910.nim.model.HumanPlayer;
 import edu.westga.cs6910.nim.model.Pile;
-import edu.westga.cs6910.nim.model.Player;
 
 /**
  * This test class test the getPile method of Game class.

@@ -38,9 +38,9 @@ public class GameWhenGetStickLeft {
 		assertEquals(expected, actual);
 	}
 	
+	
 	@Test
 	public void testGetSticksLeftAfterHumanPlayerTakesTurn() {
-	    this.theGame.swapWhoseTurn();
 	    this.humanPlayer.setPileForThisTurn(this.theGame.getPile());
 	    this.humanPlayer.setNumberSticksToTake(1);
 	    int expected = Game.INITIAL_PILE_SIZE - 1;
@@ -53,7 +53,6 @@ public class GameWhenGetStickLeft {
 	    
 	    @Test
 	    public void testGetSticksLeftAfterComputerPlayerTakesTurn() {
-	        this.theGame.swapWhoseTurn();
 	        this.computerPlayer.setPileForThisTurn(this.theGame.getPile());
 		    this.computerPlayer.setNumberSticksToTake(1);
 	        int expected = Game.INITIAL_PILE_SIZE - 1;

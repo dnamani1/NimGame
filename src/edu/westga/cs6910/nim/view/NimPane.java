@@ -174,10 +174,10 @@ public class NimPane extends BorderPane {
 		private void buildPane() {
 			this.setHgap(20);
 
-			this.radHumanPlayer = new RadioButton(this.theHuman.getName() + " first");
+			this.radHumanPlayer = new RadioButton(this.theHuman.getName());
 			this.radHumanPlayer.setOnAction(new HumanFirstListener());
 
-			this.radComputerPlayer = new RadioButton(this.theComputer.getName() + " first");
+			this.radComputerPlayer = new RadioButton(this.theComputer.getName());
 			this.radComputerPlayer.setOnAction(new ComputerFirstListener());
 
 			ToggleGroup toggleGroup = new ToggleGroup();

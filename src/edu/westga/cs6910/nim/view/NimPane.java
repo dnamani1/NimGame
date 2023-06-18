@@ -4,6 +4,7 @@ import edu.westga.cs6910.nim.model.ComputerPlayer;
 import edu.westga.cs6910.nim.model.Game;
 import edu.westga.cs6910.nim.model.Player;
 import edu.westga.cs6910.nim.model.strategy.CautiousStrategy;
+import edu.westga.cs6910.nim.model.strategy.GreedyStrategy;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Menu;
@@ -133,6 +134,17 @@ public class NimPane extends BorderPane {
 		MenuItem greedyItem = new MenuItem("Greedy");
 		greedyItem.setMnemonicParsing(true);
 		greedyItem.setAccelerator(KeyCombination.keyCombination("Ctrl+E"));
+		greedyItem.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                GreedyStrategy strategy = new GreedyStrategy();
+                Player computerPlayer = NimPane.this.theGame.getComputerPlayer();
+                if (computerPlayer instanceof ComputerPlayer) {
+                    ComputerPlayer computer = (ComputerPlayer) computerPlayer;
+                    computer.setStrategy(strategy);
+                }
+            }
+        });
 
 		MenuItem randomItem = new MenuItem("Random");
 		randomItem.setMnemonicParsing(true);

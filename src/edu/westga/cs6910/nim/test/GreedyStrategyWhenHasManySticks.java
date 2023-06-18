@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import edu.westga.cs6910.nim.model.Game;
 import edu.westga.cs6910.nim.model.strategy.GreedyStrategy;
 
 /**
@@ -23,8 +24,8 @@ public class GreedyStrategyWhenHasManySticks {
 	}
 
 	@Test
-    public void testHowManySticks_WithPileSize2_Returns1() {
-        int pileSize = 2;
+    public void testHowManySticks_WithPileSize1_Returns1() {
+        int pileSize = 1;
         int expected = 1;
         
         int result = this.testStrategy.howManySticks(pileSize);
@@ -32,24 +33,24 @@ public class GreedyStrategyWhenHasManySticks {
         assertEquals(expected, result);
     }
     
-    @Test
-    public void testHowManySticks_WithPileSize5_Returns4() {
-        int pileSize = 5;
-        int expected = 4;
-        
-        int result = this.testStrategy.howManySticks(pileSize);
-        
-        assertEquals(expected, result);
-    }
-    
-    @Test
-    public void testHowManySticks_WithPileSize10_Returns9() {
-        int pileSize = 10;
-        int expected = 9;
-        
-        int result = this.testStrategy.howManySticks(pileSize);
-        
-        assertEquals(expected, result);
-    }
+	 @Test
+	    public void shouldReturnMaxSticksWhenPileSizeIsGreaterThanMaxSticks() {
+	        int pileSize = 7;
+	        int expected = Game.MAX_STICKS_PER_TURN;
+	        
+	        int result = this.testStrategy.howManySticks(pileSize);
+	        
+	        assertEquals(expected, result);
+	    }
+
+	    @Test
+	    public void shouldReturnPileSizeWhenPileSizeIsLessThanOrEqualToMaxSticks() {
+	        int pileSize = 5;
+	        int expected = 3;
+
+	        int result = this.testStrategy.howManySticks(pileSize);
+
+	        assertEquals(expected, result);
+	    }
 
 }

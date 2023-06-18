@@ -1,5 +1,7 @@
 package edu.westga.cs6910.nim.model.strategy;
 
+import edu.westga.cs6910.nim.model.Game;
+
 /**
  * This class implements the greedy game-play strategy for the 1-Pile Nim game.
  * According to the game's rules, the player select largest number of sticks
@@ -21,16 +23,18 @@ public class GreedyStrategy implements NumberOfSticksStrategy {
 	@Override
 	public int howManySticks(int pileSize) {
 		if (pileSize <= 0) {
-            throw new IllegalArgumentException("Pile size must be greater than 0");
-        }
-        
-        int sticksToTake = pileSize - 1;
-        
-        if (sticksToTake == 1) {
-            return 1;
-        }
-        
-        return sticksToTake;
-    }
+			throw new IllegalArgumentException("Pile size must be greater than 0");
+		}
+
+		if (pileSize == 1) {
+			return 1;
+		}
+		int maxSticks = Math.min(pileSize, Game.MAX_STICKS_PER_TURN);
+		if (maxSticks % 2 == 0 && pileSize > maxSticks) {
+			maxSticks--;
+		}
+		return maxSticks;
+
+	}
 
 }

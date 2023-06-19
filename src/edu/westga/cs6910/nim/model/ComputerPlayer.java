@@ -31,12 +31,21 @@ public class ComputerPlayer extends AbstractPlayer {
 	}
 
 	/**
-	 * Sets the strategy for determining the number of sticks to take.
+	 * This method sets the strategy for determining the number of sticks to take.
 	 * 
 	 * @param strategy the strategy for determining the number of sticks to take
 	 */
 	public void setStrategy(NumberOfSticksStrategy strategy) {
 		this.theStrategy = strategy;
+	}
+	
+	/**
+	 * This method returns the strategy for determining the number of sticks to take.
+	 * 
+	 * @return the strategy
+	 */
+	public NumberOfSticksStrategy getStrategy() {
+		return this.theStrategy;
 	}
 
 	@Override

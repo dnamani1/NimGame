@@ -5,6 +5,8 @@ import edu.westga.cs6910.nim.model.Game;
 import edu.westga.cs6910.nim.model.Player;
 import edu.westga.cs6910.nim.model.strategy.CautiousStrategy;
 import edu.westga.cs6910.nim.model.strategy.GreedyStrategy;
+import edu.westga.cs6910.nim.model.strategy.NumberOfSticksStrategy;
+import edu.westga.cs6910.nim.model.strategy.RandomStrategy;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Menu;
@@ -114,47 +116,46 @@ public class NimPane extends BorderPane {
 	 * @return strategy menu.
 	 */
 	private Menu createStrategyMenu() {
-		Menu strategyMenu = new Menu("Strategy");
+	    Menu strategyMenu = new Menu("Strategy");
 
-		MenuItem cautiousItem = new MenuItem("Cautious");
-		cautiousItem.setMnemonicParsing(true);
-		cautiousItem.setAccelerator(KeyCombination.keyCombination("Ctrl+C"));
-		cautiousItem.setOnAction(new EventHandler<ActionEvent>() {
-	        @Override
-	        public void handle(ActionEvent event) {
-	            CautiousStrategy strategy = new CautiousStrategy();
-	            Player computerPlayer = NimPane.this.theGame.getComputerPlayer();
-	            if (computerPlayer instanceof ComputerPlayer) {
-	                ComputerPlayer computer = (ComputerPlayer) computerPlayer;
-	                computer.setStrategy(strategy);
-	            }
-	        }
-	    });
+	    MenuItem cautiousItem = this.createStrategyMenuItem("Cautious", "Ctrl+C", new CautiousStrategy());
+	    MenuItem greedyItem = this.createStrategyMenuItem("Greedy", "Ctrl+E", new GreedyStrategy());
+	    MenuItem randomItem = this.createStrategyMenuItem("Random", "Ctrl+R", new RandomStrategy());
 
-		MenuItem greedyItem = new MenuItem("Greedy");
-		greedyItem.setMnemonicParsing(true);
-		greedyItem.setAccelerator(KeyCombination.keyCombination("Ctrl+E"));
-		greedyItem.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                GreedyStrategy strategy = new GreedyStrategy();
-                Player computerPlayer = NimPane.this.theGame.getComputerPlayer();
-                if (computerPlayer instanceof ComputerPlayer) {
-                    ComputerPlayer computer = (ComputerPlayer) computerPlayer;
-                    computer.setStrategy(strategy);
-                }
-            }
-        });
-
-		MenuItem randomItem = new MenuItem("Random");
-		randomItem.setMnemonicParsing(true);
-		randomItem.setAccelerator(KeyCombination.keyCombination("Ctrl+R"));
-
-		strategyMenu.getItems().addAll(cautiousItem, greedyItem, randomItem);
-		return strategyMenu;
+	    strategyMenu.getItems().addAll(cautiousItem, greedyItem, randomItem);
+	    return strategyMenu;
+	}
+	
+	/**
+	 * Creates a menu item for the specified strategy with the given name, accelerator, and strategy object.
+	 *
+	 * @param name        the name of the menu item
+	 * @param accelerator the keyboard accelerator for the menu item
+	 * @param strategy    the strategy object to be set
+	 * @return the created menu item
+	 */
+	private MenuItem createStrategyMenuItem(String name, String accelerator, NumberOfSticksStrategy strategy) {
+	    MenuItem menuItem = new MenuItem(name);
+	    menuItem.setMnemonicParsing(true);
+	    menuItem.setAccelerator(KeyCombination.keyCombination(accelerator));
+	    menuItem.setOnAction(event -> this.setStrategyForComputerPlayer(strategy));
+	    return menuItem;
 	}
 
-	/*
+	/**
+	 * Sets the strategy for the computer player.
+	 *
+	 * @param strategy the strategy object to be set
+	 */
+	private void setStrategyForComputerPlayer(NumberOfSticksStrategy strategy) {
+	    Player computerPlayer = this.theGame.getComputerPlayer();
+	    if (computerPlayer instanceof ComputerPlayer) {
+	        ComputerPlayer computer = (ComputerPlayer) computerPlayer;
+	        computer.setStrategy(strategy);
+	    }
+	}
+
+	/**
 	 * Adding Choose First Player pane on top of the content pane.
 	 * 
 	 * @param theGame the Game object

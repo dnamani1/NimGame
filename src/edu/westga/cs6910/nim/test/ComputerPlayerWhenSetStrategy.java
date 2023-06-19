@@ -9,6 +9,7 @@ import edu.westga.cs6910.nim.model.ComputerPlayer;
 import edu.westga.cs6910.nim.model.strategy.CautiousStrategy;
 import edu.westga.cs6910.nim.model.strategy.GreedyStrategy;
 import edu.westga.cs6910.nim.model.strategy.NumberOfSticksStrategy;
+import edu.westga.cs6910.nim.model.strategy.RandomStrategy;
 
 /**
  * This class test the ComputerPlayer setStrategy method.
@@ -43,4 +44,12 @@ private ComputerPlayer testComputerPlayer;
 		assertEquals(greedyStrategy, this.testComputerPlayer.getStrategy());
 	}
 
+	@Test
+	public void testSetStrategyShouldSetRandomStrategy() {
+		NumberOfSticksStrategy randomStrategy = new RandomStrategy();
+
+		this.testComputerPlayer.setStrategy(randomStrategy);
+
+		assertEquals(randomStrategy, this.testComputerPlayer.getStrategy());
+	}
 }

@@ -96,8 +96,8 @@ public class NimPane extends BorderPane {
 	 * @return game menu.
 	 */
 	private Menu createGameMenu() {
-		Menu gameMenu = new Menu("Game");
-		MenuItem exitItem = new MenuItem("Exit");
+		Menu gameMenu = new Menu("_Game");
+		MenuItem exitItem = new MenuItem("E_xit");
 		exitItem.setMnemonicParsing(true);
 		exitItem.setAccelerator(KeyCombination.keyCombination("Ctrl+X"));
 		exitItem.setOnAction(new EventHandler<ActionEvent>() {
@@ -116,11 +116,11 @@ public class NimPane extends BorderPane {
 	 * @return strategy menu.
 	 */
 	private Menu createStrategyMenu() {
-	    Menu strategyMenu = new Menu("Strategy");
+	    Menu strategyMenu = new Menu("_Strategy");
 
-	    MenuItem cautiousItem = this.createStrategyMenuItem("Cautious", "Ctrl+C", new CautiousStrategy());
-	    MenuItem greedyItem = this.createStrategyMenuItem("Greedy", "Ctrl+E", new GreedyStrategy());
-	    MenuItem randomItem = this.createStrategyMenuItem("Random", "Ctrl+R", new RandomStrategy());
+	    MenuItem cautiousItem = this.createStrategyMenuItem("_Cautious", "Ctrl+C", new CautiousStrategy());
+	    MenuItem greedyItem = this.createStrategyMenuItem("Gr_eedy", "Ctrl+E", new GreedyStrategy());
+	    MenuItem randomItem = this.createStrategyMenuItem("_Random", "Ctrl+R", new RandomStrategy());
 
 	    strategyMenu.getItems().addAll(cautiousItem, greedyItem, randomItem);
 	    return strategyMenu;

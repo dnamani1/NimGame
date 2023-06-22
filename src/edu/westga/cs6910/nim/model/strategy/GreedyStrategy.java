@@ -14,7 +14,7 @@ import edu.westga.cs6910.nim.model.Game;
 public class GreedyStrategy implements NumberOfSticksStrategy {
 
 	/**
-	 * Determines the number of sticks to take from the pile.
+	 * Determines the number of sticks to take from the pile according to pile size.
 	 * 
 	 * @param pileSize the size of the pile.
 	 * @precondition pileSize > 0
@@ -29,12 +29,12 @@ public class GreedyStrategy implements NumberOfSticksStrategy {
 		if (pileSize == 1) {
 			return 1;
 		}
-		int maxSticks = Math.min(pileSize, Game.MAX_STICKS_PER_TURN);
-		if (maxSticks % 2 == 0 && pileSize > maxSticks) {
-			maxSticks--;
-		}
-		return maxSticks;
-
+		
+		int maxSticks = Game.MAX_STICKS_PER_TURN;
+	    int sticksToLeave = pileSize - 1;
+	    
+	    return Math.min(maxSticks, sticksToLeave);
+	
 	}
 
 }

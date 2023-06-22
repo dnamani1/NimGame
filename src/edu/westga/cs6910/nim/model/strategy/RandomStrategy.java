@@ -10,7 +10,7 @@ import edu.westga.cs6910.nim.model.Game;
  * @version 6/18/2023
  */
 public class RandomStrategy implements NumberOfSticksStrategy {
-	
+
 	/**
 	 * Determines the number of sticks to take from the pile according to pile size.
 	 * 
@@ -19,23 +19,23 @@ public class RandomStrategy implements NumberOfSticksStrategy {
 	 * @return the number of sticks to take from the pile.
 	 */
 	@Override
-    public int howManySticks(int pileSize) {
-        if (pileSize <= 0) {
-            throw new IllegalArgumentException("Pile size must be greater than 0");
-        }
+	public int howManySticks(int pileSize) {
+		if (pileSize <= 0) {
+			throw new IllegalArgumentException("Pile size must be greater than 0");
+		}
 
-        if (pileSize == 1) {
-            return 1;
-        }
-     
-        int maxSticks = Math.min(pileSize, Game.MAX_STICKS_PER_TURN);
-        int randomSticks = (int) (Math.random() * maxSticks) + 1;
+		if (pileSize == 1) {
+			return 1;
+		}
 
-        if (randomSticks == pileSize && randomSticks > 1) {
-            return randomSticks - 1;
-        }
+		int maxSticks = Math.min(pileSize, Game.MAX_STICKS_PER_TURN);
+		int randomSticks = (int) (Math.random() * maxSticks) + 1;
 
-        return randomSticks;
+		if (randomSticks == pileSize && randomSticks > 1) {
+			return randomSticks - 1;
+		}
+
+		return randomSticks;
 	}
 
 }

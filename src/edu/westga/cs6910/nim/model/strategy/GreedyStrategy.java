@@ -29,12 +29,12 @@ public class GreedyStrategy implements NumberOfSticksStrategy {
 		if (pileSize == 1) {
 			return 1;
 		}
-		
+
 		int maxSticks = Game.MAX_STICKS_PER_TURN;
-	    int sticksToLeave = pileSize - 1;
-	    
-	    return Math.min(maxSticks, sticksToLeave);
-	
+		int sticksToLeave = pileSize - 1;
+
+		return Math.min(maxSticks, sticksToLeave);
+
 	}
 
 }

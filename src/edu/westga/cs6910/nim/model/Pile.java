@@ -39,6 +39,14 @@ public class Pile {
 	public int getSticksLeft() {
 		return this.sticks;
 	}
+	
+	/**
+	 * Reset pile size to the initial size.
+	 * @param initialSize of pile
+	 */
+	public void resetPile(int initialSize) {
+        this.sticks = initialSize;
+    }
 
 	/**
 	 * Returns a String representation of this Pile.

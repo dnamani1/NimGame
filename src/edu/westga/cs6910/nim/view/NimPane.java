@@ -97,6 +97,14 @@ public class NimPane extends BorderPane {
 	 */
 	private Menu createGameMenu() {
 		Menu gameMenu = new Menu("_Game");
+
+		MenuItem newGameItem = new MenuItem("_New Game");
+		newGameItem.setMnemonicParsing(true);
+		newGameItem.setAccelerator(KeyCombination.keyCombination("Ctrl+N"));
+		newGameItem.setOnAction(event -> this.startNewGame());
+
+		gameMenu.getItems().add(newGameItem);
+
 		MenuItem exitItem = new MenuItem("E_xit");
 		exitItem.setMnemonicParsing(true);
 		exitItem.setAccelerator(KeyCombination.keyCombination("Ctrl+X"));
@@ -106,7 +114,9 @@ public class NimPane extends BorderPane {
 				System.exit(0);
 			}
 		});
+
 		gameMenu.getItems().add(exitItem);
+
 		return gameMenu;
 	}
 
@@ -116,18 +126,19 @@ public class NimPane extends BorderPane {
 	 * @return strategy menu.
 	 */
 	private Menu createStrategyMenu() {
-	    Menu strategyMenu = new Menu("_Strategy");
+		Menu strategyMenu = new Menu("_Strategy");
 
-	    MenuItem cautiousItem = this.createStrategyMenuItem("_Cautious", "Ctrl+C", new CautiousStrategy());
-	    MenuItem greedyItem = this.createStrategyMenuItem("Gr_eedy", "Ctrl+E", new GreedyStrategy());
-	    MenuItem randomItem = this.createStrategyMenuItem("_Random", "Ctrl+R", new RandomStrategy());
+		MenuItem cautiousItem = this.createStrategyMenuItem("_Cautious", "Ctrl+C", new CautiousStrategy());
+		MenuItem greedyItem = this.createStrategyMenuItem("Gr_eedy", "Ctrl+E", new GreedyStrategy());
+		MenuItem randomItem = this.createStrategyMenuItem("_Random", "Ctrl+R", new RandomStrategy());
 
-	    strategyMenu.getItems().addAll(cautiousItem, greedyItem, randomItem);
-	    return strategyMenu;
+		strategyMenu.getItems().addAll(cautiousItem, greedyItem, randomItem);
+		return strategyMenu;
 	}
-	
+
 	/**
-	 * Creates a menu item for the specified strategy with the given name, accelerator, and strategy object.
+	 * Creates a menu item for the specified strategy with the given name,
+	 * accelerator, and strategy object.
 	 *
 	 * @param name        the name of the menu item
 	 * @param accelerator the keyboard accelerator for the menu item
@@ -135,11 +146,23 @@ public class NimPane extends BorderPane {
 	 * @return the created menu item
 	 */
 	private MenuItem createStrategyMenuItem(String name, String accelerator, NumberOfSticksStrategy strategy) {
-	    MenuItem menuItem = new MenuItem(name);
-	    menuItem.setMnemonicParsing(true);
-	    menuItem.setAccelerator(KeyCombination.keyCombination(accelerator));
-	    menuItem.setOnAction(event -> this.setStrategyForComputerPlayer(strategy));
-	    return menuItem;
+		MenuItem menuItem = new MenuItem(name);
+		menuItem.setMnemonicParsing(true);
+		menuItem.setAccelerator(KeyCombination.keyCombination(accelerator));
+		menuItem.setOnAction(event -> this.setStrategyForComputerPlayer(strategy));
+		return menuItem;
+	}
+
+	/**
+	 * Starts a new Game when called.
+	 */
+	private void startNewGame() {
+		Player firstPlayer = this.theGame.getHumanPlayer();
+		this.theGame.startNewGame(firstPlayer);
+		this.pnHumanPlayer.setDisable(firstPlayer != this.theGame.getHumanPlayer());
+		this.pnComputerPlayer.setDisable(firstPlayer != this.theGame.getComputerPlayer());
+		this.pnGameInfo.update();
+		this.pnHumanPlayer.resetNumberToTakeComboBox();
 	}
 
 	/**
@@ -148,11 +171,11 @@ public class NimPane extends BorderPane {
 	 * @param strategy the strategy object to be set
 	 */
 	private void setStrategyForComputerPlayer(NumberOfSticksStrategy strategy) {
-	    Player computerPlayer = this.theGame.getComputerPlayer();
-	    if (computerPlayer instanceof ComputerPlayer) {
-	        ComputerPlayer computer = (ComputerPlayer) computerPlayer;
-	        computer.setStrategy(strategy);
-	    }
+		Player computerPlayer = this.theGame.getComputerPlayer();
+		if (computerPlayer instanceof ComputerPlayer) {
+			ComputerPlayer computer = (ComputerPlayer) computerPlayer;
+			computer.setStrategy(strategy);
+		}
 	}
 
 	/**
@@ -213,6 +236,13 @@ public class NimPane extends BorderPane {
 			this.add(this.radHumanPlayer, 0, 0);
 			this.add(this.radComputerPlayer, 1, 0);
 
+			Player currentPlayer = this.theGame.getCurrentPlayer();
+			if (currentPlayer == this.theHuman) {
+				this.radHumanPlayer.setSelected(true);
+			} else if (currentPlayer == this.theComputer) {
+				this.radComputerPlayer.setSelected(true);
+			}
+
 		}
 
 		/*
@@ -228,6 +258,7 @@ public class NimPane extends BorderPane {
 				NimPane.this.pnComputerPlayer.setDisable(false);
 				NimPane.this.pnChooseFirstPlayer.setDisable(true);
 				NimPane.this.theGame.startNewGame(NewGamePane.this.theComputer);
+
 			}
 		}
 
@@ -246,6 +277,7 @@ public class NimPane extends BorderPane {
 				NimPane.this.pnChooseFirstPlayer.setDisable(true);
 				NimPane.this.pnHumanPlayer.setDisable(false);
 				NimPane.this.theGame.startNewGame(NewGamePane.this.theHuman);
+
 			}
 		}
 	}

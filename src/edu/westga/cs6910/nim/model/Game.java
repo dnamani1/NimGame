@@ -61,7 +61,7 @@ public class Game implements Observable {
 	public void startNewGame(Player firstPlayer) {
 		this.currentPlayerObject.setValue(firstPlayer);
 
-		this.thePile = new Pile(INITIAL_PILE_SIZE);
+		this.thePile.resetPile(INITIAL_PILE_SIZE);
 	}
 
 	/**

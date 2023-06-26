@@ -85,7 +85,7 @@ public class HumanPane extends GridPane implements InvalidationListener {
 	 * Clears the numbers in the combo box, then adds back in all the valid numbers
 	 * so the user can't try to take more sticks than allowed.
 	 */
-	private void resetNumberToTakeComboBox() {
+	public void resetNumberToTakeComboBox() {
 		this.cmbNumberToTake.getItems().clear();
 
 		int max = Math.min(this.theGame.getSticksLeft() - 1, Game.MAX_STICKS_PER_TURN);

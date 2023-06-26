@@ -33,7 +33,7 @@ public class StatusPane extends GridPane implements InvalidationListener {
 	}
 
 	/**
-	 * 
+	 * Builds Status pane
 	 */
 	private void buildPane() {
 		this.add(new Label("~~ Game Info ~~"), 0, 0);

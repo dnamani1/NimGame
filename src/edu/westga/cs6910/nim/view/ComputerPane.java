@@ -4,9 +4,6 @@ import edu.westga.cs6910.nim.model.ComputerPlayer;
 import edu.westga.cs6910.nim.model.Game;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 
@@ -23,7 +20,6 @@ public class ComputerPane extends GridPane implements InvalidationListener {
 	private Game theGame;
 	private Label lblNumberTaken;
 	private ComputerPlayer theComputer;
-	private Button btnTakeTurn;
 
 	/**
 	 * Creates a new ComputerPane that observes the specified game. And Add this
@@ -47,21 +43,17 @@ public class ComputerPane extends GridPane implements InvalidationListener {
 	 */
 	private void buildPane() {
 		this.add(new Label("~~" + this.theComputer.getName() + "~~"), 0, 0);
-		
+
 		this.lblNumberTaken = new Label();
 		this.add(this.lblNumberTaken, 0, 1);
-		
-		this.btnTakeTurn = new Button("Take Turn");
-		this.btnTakeTurn.setOnAction(new TakeTurnListener());
-		this.add(this.btnTakeTurn, 0, 2);
+
 		this.setDisable(true);
 	}
 
 	/**
-	 * Set the user interface to show the number of sticks taken by the
-	 * computer player. 
-	 * Disable if it is no longer the computer's turn, enable
-	 * it if it is the computer's turn
+	 * Set the user interface to show the number of sticks taken by the computer
+	 * player. Disable if it is no longer the computer's turn, enable it if it is
+	 * the computer's turn
 	 */
 	@Override
 	public void invalidated(Observable arg0) {
@@ -74,29 +66,21 @@ public class ComputerPane extends GridPane implements InvalidationListener {
 
 		if (!myTurn) {
 			this.lblNumberTaken.setText("Number of Sticks Taken: " + this.theComputer.getSticksOnThisTurn());
+		} else {
+			this.takeTurn();
 		}
-		this.setDisable(!myTurn);
+		this.setDisable(!myTurn || this.theGame.getCurrentPlayer() != null);
 	}
 
-	/*
-	 * Defines the listener for takeTurnButton.
+	/**
+	 * Tells the Game to have the computer player take its turn.
 	 */
-	private class TakeTurnListener implements EventHandler<ActionEvent> {
-
-		/*
-		 * Tells the Game to have its current player (i.e., the computer player) take
-		 * its turn.
-		 * 
-		 * @see javafx.event.EventHandler#handle(T-extends-javafx.event.Event)
-		 */
-		@Override
-		public void handle(ActionEvent arg0) {
-			if (!ComputerPane.this.theGame.isGameOver()) {
-				ComputerPane.this.theComputer.setPileForThisTurn(ComputerPane.this.theGame.getPile());
-				ComputerPane.this.theComputer.setNumberSticksToTake();
-				ComputerPane.this.theGame.play();
-			}
-
-		}
+	private void takeTurn() {
+		if (!this.theGame.isGameOver()) {
+			this.theComputer.setPileForThisTurn(this.theGame.getPile());
+			this.theComputer.setNumberSticksToTake();
+	        this.theGame.play();
+	    }
 	}
+
 }

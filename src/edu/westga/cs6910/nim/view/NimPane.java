@@ -157,14 +157,20 @@ public class NimPane extends BorderPane {
 	 * Starts a new Game when called.
 	 */
 	private void startNewGame() {
-		Player firstPlayer = this.theGame.getHumanPlayer();
+		Player firstPlayer;
+	    if (this.pnChooseFirstPlayer instanceof NewGamePane) {
+	        NewGamePane chooseFirstPlayerPane = (NewGamePane) this.pnChooseFirstPlayer;
+	        firstPlayer = chooseFirstPlayerPane.getSelectedFirstPlayer();
+	    } else {
+	        firstPlayer = this.theGame.getHumanPlayer();
+	    }
 		this.theGame.startNewGame(firstPlayer);
 		this.pnHumanPlayer.setDisable(firstPlayer != this.theGame.getHumanPlayer());
 		this.pnComputerPlayer.setDisable(firstPlayer != this.theGame.getComputerPlayer());
 		this.pnGameInfo.update();
 		this.pnHumanPlayer.resetNumberToTakeComboBox();
 	}
-
+	
 	/**
 	 * Sets the strategy for the computer player.
 	 *
@@ -198,6 +204,7 @@ public class NimPane extends BorderPane {
 	private final class NewGamePane extends GridPane {
 		private RadioButton radHumanPlayer;
 		private RadioButton radComputerPlayer;
+		private Player selectedFirstPlayer;
 
 		private Game theGame;
 		private Player theHuman;
@@ -255,9 +262,10 @@ public class NimPane extends BorderPane {
 			 * click in the computerPlayerButton.
 			 */
 			public void handle(ActionEvent arg0) {
+				NewGamePane.this.selectedFirstPlayer = NewGamePane.this.theComputer;
 				NimPane.this.pnComputerPlayer.setDisable(false);
 				NimPane.this.pnChooseFirstPlayer.setDisable(true);
-				NimPane.this.theGame.startNewGame(NewGamePane.this.theComputer);
+				NimPane.this.theGame.startNewGame(NewGamePane.this.selectedFirstPlayer);
 
 			}
 		}
@@ -274,11 +282,20 @@ public class NimPane extends BorderPane {
 			 */
 			@Override
 			public void handle(ActionEvent event) {
+				NewGamePane.this.selectedFirstPlayer = NewGamePane.this.theHuman;
 				NimPane.this.pnChooseFirstPlayer.setDisable(true);
 				NimPane.this.pnHumanPlayer.setDisable(false);
-				NimPane.this.theGame.startNewGame(NewGamePane.this.theHuman);
+				NimPane.this.theGame.startNewGame(NewGamePane.this.selectedFirstPlayer);
 
 			}
+		}
+		
+		/**
+		 * First Player
+		 * @return First Player
+		 */
+		public Player getSelectedFirstPlayer() {
+		    return this.selectedFirstPlayer;
 		}
 	}
 }

@@ -40,6 +40,8 @@ public class StatusPane extends GridPane implements InvalidationListener {
 
 		this.lblStatus = new Label(this.theGame.toString());
 		this.add(this.lblStatus, 0, 1);
+		
+		this.update();
 	}
 
 	/**
@@ -56,6 +58,10 @@ public class StatusPane extends GridPane implements InvalidationListener {
 	 * Updates the label with the current game information.
 	 */
 	public void update() {
-		this.lblStatus.setText(this.theGame.toString());
+		if (this.theGame.isGameOver()) {
+            this.lblStatus.setText(this.theGame.toString());
+        } else {
+            this.lblStatus.setText("Pile size: " + this.theGame.getSticksLeft());
+        }
 	}
 }

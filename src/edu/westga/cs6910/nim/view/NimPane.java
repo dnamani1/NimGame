@@ -157,18 +157,22 @@ public class NimPane extends BorderPane {
 	 * Starts a new Game when called.
 	 */
 	private void startNewGame() {
-		Player firstPlayer;
-	    if (this.pnChooseFirstPlayer instanceof NewGamePane) {
+	    Player firstPlayer;
+	    if (this.pnChooseFirstPlayer.getClass().equals(NewGamePane.class)) {
 	        NewGamePane chooseFirstPlayerPane = (NewGamePane) this.pnChooseFirstPlayer;
 	        firstPlayer = chooseFirstPlayerPane.getSelectedFirstPlayer();
 	    } else {
 	        firstPlayer = this.theGame.getHumanPlayer();
 	    }
-		this.theGame.startNewGame(firstPlayer);
-		this.pnHumanPlayer.setDisable(firstPlayer != this.theGame.getHumanPlayer());
-		this.pnComputerPlayer.setDisable(firstPlayer != this.theGame.getComputerPlayer());
-		this.pnGameInfo.update();
-		this.pnHumanPlayer.resetNumberToTakeComboBox();
+	    this.theGame.startNewGame(firstPlayer);
+	    this.pnHumanPlayer.setDisable(firstPlayer != this.theGame.getHumanPlayer());
+	    this.pnComputerPlayer.setDisable(firstPlayer != this.theGame.getComputerPlayer());
+	    this.pnGameInfo.update();
+	    this.pnHumanPlayer.resetNumberToTakeComboBox();
+	    
+	    if (firstPlayer == this.theGame.getComputerPlayer()) {
+            this.pnComputerPlayer.takeComputerTurn();
+        }
 	}
 	
 	/**
@@ -243,13 +247,6 @@ public class NimPane extends BorderPane {
 			this.add(this.radHumanPlayer, 0, 0);
 			this.add(this.radComputerPlayer, 1, 0);
 
-			Player currentPlayer = this.theGame.getCurrentPlayer();
-			if (currentPlayer == this.theHuman) {
-				this.radHumanPlayer.setSelected(true);
-			} else if (currentPlayer == this.theComputer) {
-				this.radComputerPlayer.setSelected(true);
-			}
-
 		}
 
 		/*
@@ -267,6 +264,7 @@ public class NimPane extends BorderPane {
 				NimPane.this.pnChooseFirstPlayer.setDisable(true);
 				NimPane.this.theGame.startNewGame(NewGamePane.this.selectedFirstPlayer);
 
+				NimPane.this.pnComputerPlayer.takeComputerTurn();
 			}
 		}
 

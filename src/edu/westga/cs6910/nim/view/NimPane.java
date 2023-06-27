@@ -9,6 +9,7 @@ import edu.westga.cs6910.nim.model.strategy.NumberOfSticksStrategy;
 import edu.westga.cs6910.nim.model.strategy.RandomStrategy;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -18,7 +19,6 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 
 /**
  * Defines a GUI for the 1-pile Nim game. This class was started by CS6910
@@ -32,7 +32,7 @@ public class NimPane extends BorderPane {
 	private HumanPane pnHumanPlayer;
 	private ComputerPane pnComputerPlayer;
 	private StatusPane pnGameInfo;
-	private Pane pnChooseFirstPlayer;
+	private NewGamePane pnChooseFirstPlayer;
 
 	/**
 	 * Creates a pane object to provide the view for the specified Game model
@@ -157,24 +157,27 @@ public class NimPane extends BorderPane {
 	 * Starts a new Game when called.
 	 */
 	private void startNewGame() {
-	    Player firstPlayer;
-	    if (this.pnChooseFirstPlayer.getClass().equals(NewGamePane.class)) {
-	        NewGamePane chooseFirstPlayerPane = (NewGamePane) this.pnChooseFirstPlayer;
-	        firstPlayer = chooseFirstPlayerPane.getSelectedFirstPlayer();
-	    } else {
-	        firstPlayer = this.theGame.getHumanPlayer();
-	    }
-	    this.theGame.startNewGame(firstPlayer);
-	    this.pnHumanPlayer.setDisable(firstPlayer != this.theGame.getHumanPlayer());
-	    this.pnComputerPlayer.setDisable(firstPlayer != this.theGame.getComputerPlayer());
-	    this.pnGameInfo.update();
-	    this.pnHumanPlayer.resetNumberToTakeComboBox();
-	    
-	    if (firstPlayer == this.theGame.getComputerPlayer()) {
-            this.pnComputerPlayer.takeComputerTurn();
-        }
+		Player firstPlayer;
+		if (this.pnChooseFirstPlayer.getSelectedFirstPlayer() != null) {
+			firstPlayer = this.pnChooseFirstPlayer.getSelectedFirstPlayer();
+		} else if (this.pnChooseFirstPlayer.getRadHumanPlayer().isSelected()) {
+			firstPlayer = this.theGame.getHumanPlayer();
+		} else if (this.pnChooseFirstPlayer.getRadComputerPlayer().isSelected()) {
+			firstPlayer = this.theGame.getComputerPlayer();
+		} else {
+			return;
+		}
+		this.theGame.startNewGame(firstPlayer);
+		this.pnHumanPlayer.setDisable(firstPlayer != this.theGame.getHumanPlayer());
+		this.pnComputerPlayer.setDisable(firstPlayer != this.theGame.getComputerPlayer());
+		this.pnGameInfo.update();
+		this.pnHumanPlayer.resetNumberToTakeComboBox();
+
+		if (firstPlayer == this.theGame.getComputerPlayer()) {
+			this.pnComputerPlayer.takeComputerTurn();
+		}
 	}
-	
+
 	/**
 	 * Sets the strategy for the computer player.
 	 *
@@ -209,6 +212,7 @@ public class NimPane extends BorderPane {
 		private RadioButton radHumanPlayer;
 		private RadioButton radComputerPlayer;
 		private Player selectedFirstPlayer;
+		private Button btnRandomPlayer;
 
 		private Game theGame;
 		private Player theHuman;
@@ -244,8 +248,12 @@ public class NimPane extends BorderPane {
 			this.radHumanPlayer.setToggleGroup(toggleGroup);
 			this.radComputerPlayer.setToggleGroup(toggleGroup);
 
+			this.btnRandomPlayer = new Button("Select Random Player");
+			this.btnRandomPlayer.setOnAction(new RandomFirstListener());
+
 			this.add(this.radHumanPlayer, 0, 0);
 			this.add(this.radComputerPlayer, 1, 0);
+			this.add(this.btnRandomPlayer, 2, 0);
 
 		}
 
@@ -287,13 +295,50 @@ public class NimPane extends BorderPane {
 
 			}
 		}
-		
+
+		private class RandomFirstListener implements EventHandler<ActionEvent> {
+			@Override
+			public void handle(ActionEvent event) {
+				if (Math.random() < 0.5) {
+					NewGamePane.this.radHumanPlayer.setSelected(true);
+					NimPane.this.pnHumanPlayer.setDisable(false);
+					NimPane.this.pnChooseFirstPlayer.setDisable(true);
+					NimPane.this.theGame.startNewGame(NimPane.this.theGame.getHumanPlayer());
+				} else {
+					NewGamePane.this.radComputerPlayer.setSelected(true);
+					NimPane.this.pnComputerPlayer.setDisable(false);
+					NimPane.this.pnChooseFirstPlayer.setDisable(true);
+					NimPane.this.theGame.startNewGame(NimPane.this.theGame.getComputerPlayer());
+				}
+			}
+		}
+
 		/**
-		 * First Player
+		 * Gets Selected First Player
+		 * 
 		 * @return First Player
 		 */
 		public Player getSelectedFirstPlayer() {
-		    return this.selectedFirstPlayer;
+			return this.selectedFirstPlayer;
+		}
+		
+		/**
+		 * Returns the radio button for the human player.
+		 * 
+		 * @return the radio button for the human player
+		 */
+		public RadioButton getRadHumanPlayer() {
+			return this.radHumanPlayer;
+		}
+
+		/**
+		 * Returns the radio button for the computer player.
+		 * 
+		 * @return the radio button for the computer player
+		 */
+		public RadioButton getRadComputerPlayer() {
+			return this.radComputerPlayer;
 		}
 	}
+
 }

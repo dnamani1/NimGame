@@ -11,11 +11,10 @@ import edu.westga.cs6910.nim.model.HumanPlayer;
 import edu.westga.cs6910.nim.model.Player;
 
 /**
- * This test class test the getStickleft method of Game class.
+ * This test class tests the getSticksLeft method of the Game class.
  * 
  * @author Deeksha Namani
  * @version 6/11/2023
- *
  */
 public class GameWhenGetStickLeft {
 	private Game theGame;
@@ -26,40 +25,37 @@ public class GameWhenGetStickLeft {
 	public void setUp() throws Exception {
 		this.humanPlayer = new HumanPlayer("Deeksha");
 		this.computerPlayer = new ComputerPlayer();
-		this.theGame = new Game((HumanPlayer) this.humanPlayer, (ComputerPlayer) this.computerPlayer);
-		this.theGame.startNewGame(this.humanPlayer);
+		this.theGame = new Game((HumanPlayer) this.humanPlayer, (ComputerPlayer) this.computerPlayer, 7);
+		this.theGame.startNewGame(this.humanPlayer, 7);
 	}
-	
+
 	@Test
 	public void testGetSticksLeftInNewGame() {
-		int expected = Game.INITIAL_PILE_SIZE;
+		int expected = 7;
 		int actual = this.theGame.getSticksLeft();
 		
 		assertEquals(expected, actual);
 	}
 	
-	
 	@Test
 	public void testGetSticksLeftAfterHumanPlayerTakesTurn() {
 	    this.humanPlayer.setPileForThisTurn(this.theGame.getPile());
 	    this.humanPlayer.setNumberSticksToTake(1);
-	    int expected = Game.INITIAL_PILE_SIZE - 1;
 	    this.humanPlayer.takeTurn();
+	    int expected = 6;
 	    int actual = this.theGame.getSticksLeft();
 	    
 	    assertEquals(expected, actual);
 	}
 
+	@Test
+	public void testGetSticksLeftAfterComputerPlayerTakesTurn() {
+	    this.computerPlayer.setPileForThisTurn(this.theGame.getPile());
+	    this.computerPlayer.setNumberSticksToTake(1);
+	    this.computerPlayer.takeTurn();
+	    int expected = 6;
+	    int actual = this.theGame.getSticksLeft();
 	    
-	    @Test
-	    public void testGetSticksLeftAfterComputerPlayerTakesTurn() {
-	        this.computerPlayer.setPileForThisTurn(this.theGame.getPile());
-		    this.computerPlayer.setNumberSticksToTake(1);
-	        int expected = Game.INITIAL_PILE_SIZE - 1;
-	        this.computerPlayer.takeTurn();
-	        int actual = this.theGame.getSticksLeft();
-	        
-	        assertEquals(expected, actual);
-	    }
-
+	    assertEquals(expected, actual);
+	}
 }

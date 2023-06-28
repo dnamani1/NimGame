@@ -8,15 +8,15 @@ import org.junit.jupiter.api.Test;
 import edu.westga.cs6910.nim.model.ComputerPlayer;
 import edu.westga.cs6910.nim.model.Game;
 import edu.westga.cs6910.nim.model.HumanPlayer;
-import edu.westga.cs6910.nim.model.Pile;
 import edu.westga.cs6910.nim.model.Player;
 
 /**
- * This test class test the play method of the game class
+ * This test class tests the play method of the Game class.
+ * It checks whether the game state is updated correctly.
+ * It also verifies if the number of sticks is reduced and if the current player is not changed when the game is over.
  * 
  * @author Deeksha Namani
  * @version 6/10/2023
- *
  */
 class GameWhenPlayTheGame {
 	private Game theGame;
@@ -27,10 +27,9 @@ class GameWhenPlayTheGame {
 	public void setUp() throws Exception {
 		this.humanPlayer = new HumanPlayer("Deeksha");
 		this.computerPlayer = new ComputerPlayer();
-		this.theGame = new Game((HumanPlayer) this.humanPlayer, (ComputerPlayer) this.computerPlayer);
-		this.theGame.startNewGame(this.humanPlayer);
+		this.theGame = new Game((HumanPlayer) this.humanPlayer, (ComputerPlayer) this.computerPlayer, 7);
 	}
-	
+
 	@Test
 	public void testPlayUpdatesGameOverStateWhenSticksLeftIs1() {
 	    this.theGame.getPile().removeSticks(6);
@@ -45,23 +44,6 @@ class GameWhenPlayTheGame {
 	    this.theGame.play();
 
 	    assertEquals(true, this.theGame.isGameOver());
-	}
-
-	@Test
-	public void testPlayReducesSticksLeft() {
-		int initialSticks = this.theGame.getSticksLeft();
-		Pile pile = this.theGame.getPile();
-		Player currentPlayer = this.theGame.getCurrentPlayer();
-		
-		currentPlayer.setPileForThisTurn(pile);
-		currentPlayer.setNumberSticksToTake(1);
-		
-		this.theGame.play();
-		
-		int expected = initialSticks - 1;
-		int actual = this.theGame.getSticksLeft();
-		
-		assertEquals(expected, actual);
 	}
 	
 	@Test

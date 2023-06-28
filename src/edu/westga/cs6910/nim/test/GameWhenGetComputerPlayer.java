@@ -1,6 +1,6 @@
 package edu.westga.cs6910.nim.test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,39 +19,38 @@ import edu.westga.cs6910.nim.model.Player;
  */
 public class GameWhenGetComputerPlayer {
 
-	private Game theGame;
-	private Player humanPlayer;
-	private Player computerPlayer;
+    private Game theGame;
+    private Player humanPlayer;
+    private Player computerPlayer;
 
-	@BeforeEach
-	public void setUp() throws Exception {
-		this.humanPlayer = new HumanPlayer("Deeksha");
-		this.computerPlayer = new ComputerPlayer();
-		this.theGame = new Game((HumanPlayer) this.humanPlayer, (ComputerPlayer) this.computerPlayer);
-	}
+    @BeforeEach
+    public void setUp() throws Exception {
+        this.humanPlayer = new HumanPlayer("Deeksha");
+        this.computerPlayer = new ComputerPlayer();
+        this.theGame = new Game((HumanPlayer) this.humanPlayer, (ComputerPlayer) this.computerPlayer, 7);
+    }
 
-	@Test
-	public void testShouldReturnsComputerPlayer() {
-		Player expected = this.computerPlayer;
-		Player actual = this.theGame.getComputerPlayer();
+    @Test
+    public void testShouldReturnsComputerPlayer() {
+        Player expected = this.computerPlayer;
+        Player actual = this.theGame.getComputerPlayer();
 
-		assertEquals(expected, actual);
-	}
+        assertEquals(expected, actual);
+    }
 
-	@Test
-	public void testShouldReturnsComputerPlayerWithName() {
-		Player actual = this.theGame.getComputerPlayer();
+    @Test
+    public void testShouldReturnsComputerPlayerWithName() {
+        Player actual = this.theGame.getComputerPlayer();
 
-		assertEquals("Simple computer", actual.getName());
-	}
+        assertEquals("Simple computer", actual.getName());
+    }
 
-	@Test
-	public void testShouldReturnSameAfterStartNewGameForGetComputerPlayers() {
-		this.theGame.startNewGame(this.computerPlayer);
-		Player expected = this.computerPlayer;
-		Player actual = this.theGame.getComputerPlayer();
+    @Test
+    public void testShouldReturnSameAfterStartNewGameForGetComputerPlayer() {
+        this.theGame.startNewGame(this.computerPlayer, 7);
+        Player expected = this.computerPlayer;
+        Player actual = this.theGame.getComputerPlayer();
 
-		assertEquals(expected, actual);
-	}
-
+        assertEquals(expected, actual);
+    }
 }

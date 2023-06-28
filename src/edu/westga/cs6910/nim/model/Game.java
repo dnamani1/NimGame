@@ -13,8 +13,6 @@ import javafx.beans.property.SimpleObjectProperty;
  * @version 6/5/2023
  */
 public class Game implements Observable {
-	/** Constant to define the initial pile size */
-	public static final int INITIAL_PILE_SIZE = 7;
 
 	/**
 	 * Constant to define the maximum number of sticks to be removed per turn
@@ -34,34 +32,29 @@ public class Game implements Observable {
 	 * 
 	 * @param theComputer the automated player
 	 * @param theHuman    the human player
-	 * 
+	 * @param pileSize of the pile
 	 * @require theHuman != null && theComputer != null
 	 * 
 	 * @ensure humanPlayer().equals(theHuman) && computerPlayer.equals(theComputer)
 	 *         && sticksLeft() == INITIAL_PILE_SIZE
 	 */
-	public Game(HumanPlayer theHuman, ComputerPlayer theComputer) {
+	public Game(HumanPlayer theHuman, ComputerPlayer theComputer, int pileSize) {
 		this.theHuman = theHuman;
 		this.theComputer = theComputer;
 
 		this.currentPlayerObject = new SimpleObjectProperty<Player>();
 
-		this.thePile = new Pile(INITIAL_PILE_SIZE);
+		this.thePile = new Pile(pileSize);
 	}
-
+	
 	/**
 	 * Initializes the game for play.
-	 * 
 	 * @param firstPlayer the Player who takes the first turn
-	 * 
-	 * @require firstPlayer != null &&
-	 * 
-	 * @ensures whoseTurn().equals(firstPlayer) && sticksLeft() == INITIAL_PILE_SIZE
+	 * @param pileSize of pile
 	 */
-	public void startNewGame(Player firstPlayer) {
-		this.currentPlayerObject.setValue(firstPlayer);
-
-		this.thePile.resetPile(INITIAL_PILE_SIZE);
+	public void startNewGame(Player firstPlayer, int pileSize) {
+	    this.currentPlayerObject.setValue(firstPlayer);
+	    this.thePile.resetPile(pileSize);
 	}
 
 	/**

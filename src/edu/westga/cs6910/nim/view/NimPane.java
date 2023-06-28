@@ -10,6 +10,8 @@ import edu.westga.cs6910.nim.model.strategy.RandomStrategy;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -19,6 +21,7 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 /**
  * Defines a GUI for the 1-pile Nim game. This class was started by CS6910
@@ -33,6 +36,7 @@ public class NimPane extends BorderPane {
 	private ComputerPane pnComputerPlayer;
 	private StatusPane pnGameInfo;
 	private NewGamePane pnChooseFirstPlayer;
+	private ComboBox<Integer> cmbPileSize;
 
 	/**
 	 * Creates a pane object to provide the view for the specified Game model
@@ -64,11 +68,16 @@ public class NimPane extends BorderPane {
 		hboxHumanPlayer.getChildren().add(this.pnHumanPlayer);
 		this.pnContent.setLeft(hboxHumanPlayer);
 
+		VBox vboxPileSizeChooser = new VBox();
+		vboxPileSizeChooser.getStyleClass().add("pane-border");
+		this.addPileSizeChooser(vboxPileSizeChooser);
+		this.pnContent.setCenter(vboxPileSizeChooser);
+
 		HBox hboxStatus = new HBox();
 		hboxStatus.getStyleClass().add("pane-border");
 		this.pnGameInfo = new StatusPane(theGame);
 		hboxStatus.getChildren().add(this.pnGameInfo);
-		this.pnContent.setCenter(hboxStatus);
+		this.pnContent.setBottom(hboxStatus);
 
 		HBox hboxComputerPlayer = new HBox();
 		hboxComputerPlayer.getStyleClass().add("pane-border");
@@ -167,10 +176,13 @@ public class NimPane extends BorderPane {
 		} else {
 			return;
 		}
-		this.theGame.startNewGame(firstPlayer);
+
+		int selectedPileSize = this.cmbPileSize.getValue();
+		this.pnGameInfo.update();
+
+		this.theGame.startNewGame(firstPlayer, selectedPileSize);
 		this.pnHumanPlayer.setDisable(firstPlayer != this.theGame.getHumanPlayer());
 		this.pnComputerPlayer.setDisable(firstPlayer != this.theGame.getComputerPlayer());
-		this.pnGameInfo.update();
 		this.pnHumanPlayer.resetNumberToTakeComboBox();
 
 		if (firstPlayer == this.theGame.getComputerPlayer()) {
@@ -203,6 +215,26 @@ public class NimPane extends BorderPane {
 		this.pnChooseFirstPlayer = new NewGamePane(theGame);
 		topBox.getChildren().add(this.pnChooseFirstPlayer);
 		this.pnContent.setTop(topBox);
+	}
+
+	/**
+	 * Adding the Pile Size chooser dropdown to the content pane.
+	 * 
+	 * @param dropDownPane main
+	 */
+	private void addPileSizeChooser(VBox dropDownPane) {
+		this.cmbPileSize = new ComboBox<>();
+		this.cmbPileSize.getItems().addAll(5, 6, 7, 8, 9, 10);
+		this.cmbPileSize.setValue(this.theGame.getPile().getSticksLeft());
+
+		this.cmbPileSize.setOnAction(event -> {
+			int selectedPileSize = this.cmbPileSize.getValue();
+			this.theGame.startNewGame(this.pnChooseFirstPlayer.getSelectedFirstPlayer(), selectedPileSize);
+			this.pnGameInfo.update();
+		});
+
+		Label lblPileSize = new Label("Pile Size:");
+		dropDownPane.getChildren().addAll(lblPileSize, this.cmbPileSize);
 	}
 
 	/*
@@ -254,7 +286,6 @@ public class NimPane extends BorderPane {
 			this.add(this.radHumanPlayer, 0, 0);
 			this.add(this.radComputerPlayer, 1, 0);
 			this.add(this.btnRandomPlayer, 2, 0);
-
 		}
 
 		/*
@@ -270,7 +301,8 @@ public class NimPane extends BorderPane {
 				NewGamePane.this.selectedFirstPlayer = NewGamePane.this.theComputer;
 				NimPane.this.pnComputerPlayer.setDisable(false);
 				NimPane.this.pnChooseFirstPlayer.setDisable(true);
-				NimPane.this.theGame.startNewGame(NewGamePane.this.selectedFirstPlayer);
+				int selectedPileSize = NimPane.this.cmbPileSize.getValue();
+				NimPane.this.theGame.startNewGame(NewGamePane.this.selectedFirstPlayer, selectedPileSize);
 
 				NimPane.this.pnComputerPlayer.takeComputerTurn();
 			}
@@ -291,8 +323,8 @@ public class NimPane extends BorderPane {
 				NewGamePane.this.selectedFirstPlayer = NewGamePane.this.theHuman;
 				NimPane.this.pnChooseFirstPlayer.setDisable(true);
 				NimPane.this.pnHumanPlayer.setDisable(false);
-				NimPane.this.theGame.startNewGame(NewGamePane.this.selectedFirstPlayer);
-
+				int selectedPileSize = NimPane.this.cmbPileSize.getValue();
+				NimPane.this.theGame.startNewGame(NewGamePane.this.selectedFirstPlayer, selectedPileSize);
 			}
 		}
 
@@ -303,12 +335,14 @@ public class NimPane extends BorderPane {
 					NewGamePane.this.radHumanPlayer.setSelected(true);
 					NimPane.this.pnHumanPlayer.setDisable(false);
 					NimPane.this.pnChooseFirstPlayer.setDisable(true);
-					NimPane.this.theGame.startNewGame(NimPane.this.theGame.getHumanPlayer());
+					int selectedPileSize = NimPane.this.cmbPileSize.getValue();
+					NimPane.this.theGame.startNewGame(NimPane.this.theGame.getHumanPlayer(), selectedPileSize);
 				} else {
 					NewGamePane.this.radComputerPlayer.setSelected(true);
 					NimPane.this.pnComputerPlayer.setDisable(false);
 					NimPane.this.pnChooseFirstPlayer.setDisable(true);
-					NimPane.this.theGame.startNewGame(NimPane.this.theGame.getComputerPlayer());
+					int selectedPileSize = NimPane.this.cmbPileSize.getValue();
+					NimPane.this.theGame.startNewGame(NimPane.this.theGame.getComputerPlayer(), selectedPileSize);
 				}
 			}
 		}
@@ -321,7 +355,7 @@ public class NimPane extends BorderPane {
 		public Player getSelectedFirstPlayer() {
 			return this.selectedFirstPlayer;
 		}
-		
+
 		/**
 		 * Returns the radio button for the human player.
 		 * 
@@ -340,5 +374,4 @@ public class NimPane extends BorderPane {
 			return this.radComputerPlayer;
 		}
 	}
-
 }

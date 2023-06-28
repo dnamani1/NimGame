@@ -23,7 +23,7 @@ public class Main extends Application {
 		
 		CautiousStrategy cautiousStrategy = new CautiousStrategy(); 
 		
-		Game theGame = new Game(new HumanPlayer("Human"), new ComputerPlayer("Computer", cautiousStrategy));
+		Game theGame = new Game(new HumanPlayer("Human"), new ComputerPlayer("Computer", cautiousStrategy), 7);
 
 		NimPane root = new NimPane(theGame);
 		Scene scene = new Scene(root, 700, 200);

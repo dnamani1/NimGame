@@ -1,6 +1,6 @@
 package edu.westga.cs6910.nim.test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,45 +18,44 @@ import edu.westga.cs6910.nim.model.Player;
  *
  */
 class GameWhenStartNewGame {
-	private Game theGame;
-	private Player humanPlayer;
-	private Player computerPlayer;
+    private Game theGame;
+    private Player humanPlayer;
+    private Player computerPlayer;
 
-	@BeforeEach
-	public void setUp() throws Exception {
-		this.humanPlayer = new HumanPlayer("Deeksha");
-		this.computerPlayer = new ComputerPlayer();
-		this.theGame = new Game((HumanPlayer) this.humanPlayer, (ComputerPlayer) this.computerPlayer);
-	}
-
-	@Test
-    public void testStartNewGameSetCorrectFirstPlayer() {
-        this.theGame.startNewGame(this.humanPlayer);
-        
-        assertEquals(this.humanPlayer,this.theGame.getCurrentPlayer());
+    @BeforeEach
+    public void setUp() throws Exception {
+        this.humanPlayer = new HumanPlayer("Deeksha");
+        this.computerPlayer = new ComputerPlayer();
+        this.theGame = new Game((HumanPlayer) this.humanPlayer, (ComputerPlayer) this.computerPlayer, 7);
     }
-	
-	@Test
+
+    @Test
+    public void testStartNewGameSetCorrectFirstPlayer() {
+        this.theGame.startNewGame(this.humanPlayer, 7);
+        
+        assertEquals(this.humanPlayer, this.theGame.getCurrentPlayer());
+    }
+    
+    @Test
     public void testStartNewGameResetsPileSizeToInitialValue() {
         this.theGame.getPile().removeSticks(3);
-        this.theGame.startNewGame(this.humanPlayer);
+        this.theGame.startNewGame(this.humanPlayer, 7);
 
-        assertEquals(Game.INITIAL_PILE_SIZE, this.theGame.getSticksLeft());
+        assertEquals(7, this.theGame.getSticksLeft());
     }
-	
-	@Test
+    
+    @Test
     public void testStartNewGameChangesCurrentPlayer() {
-        this.theGame.startNewGame(this.computerPlayer);
+        this.theGame.startNewGame(this.computerPlayer, 7);
 
         assertEquals(this.computerPlayer, this.theGame.getCurrentPlayer());
     }
-	
-	@Test
-	public void testStartNewGameResetsGameOverState() {
-	    this.theGame.getPile().removeSticks(1);
-	    this.theGame.startNewGame(humanPlayer);
-	    
-	    assertEquals(false, this.theGame.isGameOver());
-	}
-
+    
+    @Test
+    public void testStartNewGameResetsGameOverState() {
+        this.theGame.getPile().removeSticks(1);
+        this.theGame.startNewGame(humanPlayer, 7);
+        
+        assertEquals(false, this.theGame.isGameOver());
+    }
 }

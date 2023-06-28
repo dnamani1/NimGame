@@ -1,0 +1,91 @@
+1. Setting Player at begining of the game and setting it default for future games:
+
+I changed the code so that the user may begin a new game without picking the first player again. 
+This implies that once the first player is chosen, that choice is maintained for all future new games.
+
+I changed the following things to do this:
+* Added new menu Item in Game menu named `New Game` and set Mnemonic to `N`, for new game.
+
+* A new method named `startNewGame()` was added to handle launching a brand-new game. In this procedure,
+  I determine whether the first participant has already been chosen. If that is the case, I begin the next 
+  game with that player as the first. If not, I determine if the radio button for a computer player or a human
+  player is selected and adjust the first player appropriately.
+
+* Changed the `buildPane()` function in the 'NewGamePane' class to prevent the initial player selection 
+  from appearing once the game has started.
+
+
+
+
+
+2. The computer player to take its turn automatically without any human interaction.
+
+I changed the code in such a way that it automatically letting the computer player take its turn without 
+requiring the user to click the 'Take Turn' button. Replaced the ActionEvent with method and remove button.
+
+I changed the following things to do this:
+
+* ComputerPane class:
+   * The `takeComputerTurn()` method was modified to update the UI with the number of sticks taken by the computer player.
+     It sets the pile for the computer player's turn, determines the number of sticks to take using the strategy, 
+     plays the turn in the game, and updates the label with the number of sticks taken.
+
+   * The `takeComputerTurn()` method is called automatically in the `invalidated()` method of the `ComputerPane` class 
+     when it's the computer player's turn. This ensures that the computer player takes its turn without human interaction.
+
+   * The `invalidated()` method also disables the `ComputerPane` when it's not the computer player's turn and enables
+     it when it's the computer player's turn. This helps in indicating the turn of the computer player to avoid confusion 
+     for the human player.
+
+* NimPane class:
+   * The `startNewGame()` method was modified to call the `takeComputerTurn()` method of `ComputerPane` when the first 
+     player is the computer player. This ensures that the computer player takes its turn automatically at the beginning
+     of the game without requiring the user to click the 'Take Turn' button.
+   
+
+
+
+
+3. Randomly select which player goes first
+
+I changed the following things to do this:
+
+* The `NewGamePane` class has a `Button` called `btnRandomPlayer`, which is used to select a random player to go first.
+
+* Inside the `buildPane()` method of the `NewGamePane` class, the `btnRandomPlayer` is instantiated and an event handler
+  is set to handle its action.
+
+* The `RandomFirstListener` class is defined as an inner class in the `NewGamePane` class. This listener is responsible
+  for handling the action event when the `btnRandomPlayer` is clicked.
+
+* In the `handle()` method of the `RandomFirstListener` class, a random number between 0 and 1 is generated using `Math.random()`.
+
+* The game is then started with the selected player and the chosen pile size using the `startNewGame()` method of the `NimPane` class.
+
+* By clicking the "Select Random Player" button, the application will randomly select either the human player or the computer player 
+  to go first in the game.
+
+* When a new game is initalize the player remains the same.
+
+
+
+
+4. Set the size of the pile at the start of the game.
+
+I changed the following things to do this:
+
+* In the `NimPane` class, the method `addPileSizeChooser()` adds a `ComboBox<Integer>` called `cmbPileSize` to the `VBox`
+  named `dropDownPane`.
+
+* The `cmbPileSize` is populated with options for the pile size: 5, 6, 7, 8, 9, and 10.
+
+*  An event handler is set for the `cmbPileSize` using the `setOnAction` method. This event handler is triggered when 
+   the user selects a pile size from the dropdown.Inside the event handler, the selected pile size is retrieved.
+
+* The `startNewGame()` method is then called with the selected first player and the selected pile size to start a new game.
+
+* After starting the game, the `cmbPileSize` is disabled using to prevent further changes to the pile size during the game.
+
+* The game info is updated in the `pnGameInfo` pane.
+
+Once a pile size is chosen, it cannot be changed until a new game is started.

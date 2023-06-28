@@ -37,6 +37,7 @@ public class NimPane extends BorderPane {
 	private StatusPane pnGameInfo;
 	private NewGamePane pnChooseFirstPlayer;
 	private ComboBox<Integer> cmbPileSize;
+	private boolean isPileSizeChosen;
 
 	/**
 	 * Creates a pane object to provide the view for the specified Game model
@@ -55,6 +56,7 @@ public class NimPane extends BorderPane {
 	 */
 	public NimPane(Game theGame) {
 		this.theGame = theGame;
+		this.isPileSizeChosen = false;
 
 		this.pnContent = new BorderPane();
 
@@ -178,8 +180,7 @@ public class NimPane extends BorderPane {
 		}
 
 		int selectedPileSize = this.cmbPileSize.getValue();
-		this.pnGameInfo.update();
-
+		
 		this.theGame.startNewGame(firstPlayer, selectedPileSize);
 		this.pnHumanPlayer.setDisable(firstPlayer != this.theGame.getHumanPlayer());
 		this.pnComputerPlayer.setDisable(firstPlayer != this.theGame.getComputerPlayer());
@@ -188,6 +189,10 @@ public class NimPane extends BorderPane {
 		if (firstPlayer == this.theGame.getComputerPlayer()) {
 			this.pnComputerPlayer.takeComputerTurn();
 		}
+		
+		this.isPileSizeChosen = true;
+        this.cmbPileSize.setDisable(true);
+		this.pnGameInfo.update();
 	}
 
 	/**
@@ -230,11 +235,15 @@ public class NimPane extends BorderPane {
 		this.cmbPileSize.setOnAction(event -> {
 			int selectedPileSize = this.cmbPileSize.getValue();
 			this.theGame.startNewGame(this.pnChooseFirstPlayer.getSelectedFirstPlayer(), selectedPileSize);
+			this.cmbPileSize.setDisable(true);
 			this.pnGameInfo.update();
 		});
 
 		Label lblPileSize = new Label("Pile Size:");
 		dropDownPane.getChildren().addAll(lblPileSize, this.cmbPileSize);
+		if (this.isPileSizeChosen) {
+	        this.cmbPileSize.setDisable(true);
+	    }
 	}
 
 	/*
